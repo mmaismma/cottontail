@@ -17,12 +17,19 @@ httpRequest.onreadystatechange = () => {
 
 const prevPic = document.getElementById('prev-pic');
 const nextPic = document.getElementById('next-pic');
+const shotModer = document.getElementById('shot-moder');
 
 let picNum = 0;
 
-prevPic.onclick = changePic(-1);
-nextPic.onclick = changePic(1);
-
 function changePic(diff) {
     picNum += diff;
+    
 }
+
+function toggleShotMode() {
+    document.fullscreenElement === null ? document.body.requestFullscreen() : document.exitFullscreen()
+}
+
+prevPic.onclick = changePic.bind(-1);
+nextPic.onclick = changePic.bind(1);
+shotModer.onclick = toggleShotMode.bind();
