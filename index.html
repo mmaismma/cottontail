@@ -5,15 +5,19 @@
     <title>Cottontail</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 
 <body>
 
     <img id="pic" onload="pic.style.animation = 'none'; pic.style['-webkit-mask'] = 'none'; pic.style['mask'] = 'none'">
+    <p id="pic-title">Could not load title</p>
     <div id="controls">
-        <button id="prev-pic" class="invisible">p</button>
-        <button id="shot-moder" class="invisible">o</button>
-        <button id="next-pic" class="invisible">d</button>
+        <button id="prev-pic" class="invisible" disabled="true">p</button>
+        <button id="shot-moder" class="invisible" disabled="true">o</button>
+        <button id="next-pic" class="invisible" disabled="true">d</button>
     </div>
 
     <script src="script.js"></script>
