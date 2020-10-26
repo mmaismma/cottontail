@@ -15,9 +15,20 @@
     <img id="pic" onload="pic.style.animation = 'none'; pic.style['-webkit-mask'] = 'none'; pic.style['mask'] = 'none'">
     <p id="pic-title">Could not load title</p>
     <div id="controls">
-        <button id="prev-pic" class="invisible" disabled="true">p</button>
-        <button id="shot-moder" class="invisible" disabled="true">o</button>
-        <button id="next-pic" class="invisible" disabled="true">d</button>
+        <button id="prev-pic" class="invisible">p</button>
+        <button id="next-pic" class="invisible">d</button>
+    </div>
+    <div id="settings">
+        <h1 id="screen-title">Settings</h1>
+
+        <label for="mode-selector">Scout for</label>
+        <select id="mode-selector" onchange="scoutMode = this.value; sendHttpRequest()">
+            <option value="rabbits">Rabbits</option>
+            <option value="aww">aww</option>
+            <option value="somethingimade">Something I Made</option>
+            <option value="crafts">Crafts</option>
+            <option value="origami">Origami</option>
+        </select>
     </div>
 
     <script src="script.js"></script>
