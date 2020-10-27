@@ -13,22 +13,51 @@
 <body>
 
     <img id="pic" onload="pic.style.animation = 'none'; pic.style['-webkit-mask'] = 'none'; pic.style['mask'] = 'none'">
+
     <p id="pic-title">Could not load title</p>
     <div id="controls">
         <button id="prev-pic" class="invisible">p</button>
         <button id="next-pic" class="invisible">d</button>
     </div>
+
+    <div id="a11y-controls">
+        <button id="a11y-prev-pic">Previous Picture</button>
+        <button id="a11y-shot-moder">Toggle "Shot-Mode"</button>
+        <button id="a11y-settings-toggler">Open/Close Settings</button>
+        <button id="a11y-next-pic">Next Picture</button>
+    </div>
+
     <div id="settings">
         <h1 id="screen-title">Settings</h1>
 
         <label for="mode-selector">Scout for</label>
-        <select id="mode-selector" onchange="scoutMode = this.value; sendHttpRequest()">
+        <select id="mode-selector" onchange="scoutMode = this.value; localStorage.setItem('scoutMode', this.value); sendHttpRequest()">
             <option value="rabbits">Rabbits</option>
             <option value="aww">aww</option>
+            <option value="art">Art</option>
             <option value="somethingimade">Something I Made</option>
             <option value="crafts">Crafts</option>
             <option value="origami">Origami</option>
-        </select>
+        </select><br><br>
+
+        <!--<input type="checkbox" id="shot-mode-downloads">
+        <label for="shot-mode-downloads">"Shot-mode" downloads picture</label><br><br>-->
+        
+        <input type="checkbox" onchange="toggleA11yMode()" id="a11y-moder">
+        <label for="a11y-moder">High accessibility mode</label><br><br>
+
+        <details class="a11y-inverse-dependent">
+            <summary>Show controls</summary>
+            <ol>
+                <li>Click/tap on the left side of screen to view the previous picture.</li>
+                <li>Click/tap on the right side of screen to view the next picture.</li>
+                <li>Double click/tap to toggle "shot-mode".</li>
+                <li>Right click/pinch in and pinch out to open and close Settings.</li>
+            </ol>
+        </details><br><br>
+
+        <!--<button onclick="showTutorial()">Show Tutorial</button><br><br>-->
+        <button class="a11y-dependent" onclick="toggleSettings()">Close Settings</button>
     </div>
 
     <script src="script.js"></script>
