@@ -77,7 +77,7 @@ function toggleShotMode() {
 function toggleSettings(e = event, state = "toggle") {
     state === "toggle" ? e.preventDefault() : null
 
-    let theDis = settings.style.display;
+    let theDis = window.getComputedStyle(settings).getPropertyValue('display');
 
     if (state === "show" && theDis === "none") {
         settings.style.display = "block";

@@ -24,6 +24,10 @@ input:disabled+label {
     color: #555;
 }
 
+input:checked+label {
+    color: #55f;
+}
+
 button {
     font: inherit;
     font-size: 80%;
@@ -239,5 +243,12 @@ body.a11y .a11y-inverse-dependent {
     }
     #pic-title {
         font-size: 2.5rem;
+    }
+    #a11y-controls {
+        height: 100px;
+        bottom: -100px;
+    }
+    body.a11y {
+        height: calc(100% - 100px);
     }
 }
