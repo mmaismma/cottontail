@@ -138,6 +138,22 @@ function handleTouchStart(e) {
                 gst.fy2 = ev.touches[1].clientY;
             }
         };
+        
+        settings.ontouchend = () => {
+            resultGesture();
+        };
+        settings.ontouchcancel = () => {
+            resultGesture();
+        };
+        settings.ontouchmove = (ev) => {
+            ev.preventDefault();
+            if (ev.touches.length === 2) {
+                gst.fx1 = ev.touches[0].clientX;
+                gst.fx2 = ev.touches[1].clientX;
+                gst.fy1 = ev.touches[0].clientY;
+                gst.fy2 = ev.touches[1].clientY;
+            }
+        };
     }
 }
 
