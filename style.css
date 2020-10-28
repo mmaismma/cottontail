@@ -133,8 +133,8 @@ button:disabled:hover {
     justify-content: center;
     font-size: 3vmin;
 
-    backdrop-filter: blur(20px) saturate(180%);
-    background-color: #000a;
+    abackdrop-filter: blur(20px) saturate(180%);
+    background-color: #000000ec;
 
     display: none;
     opacity: 0;
@@ -144,9 +144,9 @@ button:disabled:hover {
 
 #mode-selector {
     margin: 0 5px;
-    background: #222;
-    color: white;
-    border: 1px solid #555;
+    abackground: #222;
+    acolor: white;
+    aborder: 1px solid #555;
     height: 30px;
     padding: 0 5px;
 }

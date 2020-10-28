@@ -97,19 +97,6 @@ function toggleSettings(e = event, state = "toggle") {
     }
 }
 
-document.body.oncontextmenu = (e) => {
-    if (a11yModer.checked) return;
-    toggleSettings(e);
-}
-
-controls.ontouchstart = (e) => {
-    handleTouchStart(e);
-}
-
-settings.ontouchstart = (e) => {
-    handleTouchStart(e);
-}
-
 function handleTouchStart(e) {
     if (a11yModer.checked) return;
 
@@ -159,10 +146,10 @@ function handleTouchStart(e) {
 
 function resultGesture() {
     controls.ontouchend = () => {
-        return
+        
     }
     controls.ontouchcancel = () => {
-        return
+        
     }
 
     let oldDist = Math.hypot(gst.ix1 - gst.ix2, gst.iy1 - gst.iy2);
@@ -263,6 +250,21 @@ a11yShotModer.onclick = () => {
 }
 a11ySetter.onclick = (e) => {
     toggleSettings(e);
+}
+
+document.documentElement.oncontextmenu = (e) => {
+    if (a11yModer.checked) return;
+    toggleSettings(e);
+}
+
+controls.ontouchstart = (e) => {
+    handleTouchStart(e);
+}
+
+settings.ontouchstart = (e) => {
+    if (e.target === e.currentTarget) {
+        handleTouchStart(e);
+    };
 }
 
 sendHttpRequest();
