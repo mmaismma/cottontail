@@ -4,6 +4,7 @@
 <head>
     <title>Cottontail</title>
     <meta name="color-scheme" content="dark light">
+    <link rel="stylesheet preload prefetch" href="https://fonts.googleapis.com/css2?family=Lato&display=swap" as="style">
 
     <link rel="stylesheet" href="./style.css">
     <link rel="manifest" href="./manifest.webmanifest">
@@ -46,6 +47,12 @@
         
         <input type="checkbox" onchange="toggleA11yMode()" id="a11y-moder">
         <label for="a11y-moder">High accessibility mode</label><br><br>
+
+        <input type="checkbox" id="dont-show-title" onclick="this.checked ? (titleInShot.disabled = true, titleInShot.checked = false, picTitle.style.display = 'none') : (titleInShot.disabled = false, picTitle.style.display = 'block')" autocomplete="on">
+        <label for="dont-show-title">Don't show picture title</label><br><br>
+        
+        <input type="checkbox" id="title-in-shot" autocomplete="on">
+        <label for="title-in-shot">Show picture title in "shot-mode"</label><br><br>
 
         <details class="a11y-inverse-dependent">
             <summary>Show controls</summary>

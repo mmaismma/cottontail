@@ -14,15 +14,19 @@ const a11yControls = elId('a11y-controls');
 
 const pic = elId('pic');
 const picTitle = elId('pic-title');
+
 const controls = elId('controls');
 const settings = elId('settings');
+
 const modeSelector = elId('mode-selector');
+const titleInShot = elId('title-in-shot')
 
 let picData = [];
 let gst = [];
 let picNum = -1;
 let scoutMode = localStorage.getItem('scoutMode') === null ? "rabbits" : localStorage.getItem('scoutMode');
 modeSelector.value = scoutMode;
+let httpRequest = new XMLHttpRequest();
 
 function changePic(diff) {
     picNum += diff;
@@ -42,13 +46,15 @@ function changePic(diff) {
         a11yNextPic.disabled = false;
     }
 
-    pic.style.animation = '';
-    pic.style.mask = '';
-    pic.style["-webkit-mask"] = '';
-    pic.style["-moz-mask"] = '';
-    pic.style["-ms-mask"] = '';
-    pic.src = "";
-    picTitle.textContent = "";
+    setTimeout(() => {
+        pic.style.animation = '';
+        pic.style.mask = '';
+        pic.style["-webkit-mask"] = '';
+        pic.style["-moz-mask"] = '';
+        pic.style["-ms-mask"] = '';
+        pic.src = "";
+        picTitle.textContent = "";
+    }, 0)
 
     let tempImg = new Image();
     tempImg.onload = () => {
@@ -60,7 +66,7 @@ function changePic(diff) {
 
 function toggleShotMode() {
     if (document.fullscreenElement === null) {
-        picTitle.style.opacity = 0;
+        !titleInShot.checked ? picTitle.style.opacity = 0 : picTitle.style.opacity = 1;
         document.documentElement.requestFullscreen();
     } else {
         picTitle.style.opacity = 1;
@@ -69,24 +75,24 @@ function toggleShotMode() {
 }
 
 function toggleSettings(e = event, state = "toggle") {
-    e.preventDefault();
+    state === "toggle" ? e.preventDefault() : null
 
-    let theDis = window.getComputedStyle(settings).getPropertyValue('display');
+    let theDis = settings.style.display;
 
     if (state === "show" && theDis === "none") {
         settings.style.display = "block";
         pic.style.transform = "scale(0.9)"
+        settings.style.pointerEvents = "all";
+        document.body.style.pointerEvents = "none";
         setTimeout(() => {
             settings.style.opacity = 1;
-            settings.style.pointerEvents = "all";
-            document.body.style.pointerEvents = "none";
         }, 0)
     } else if (state === "hide" && theDis === "block") {
         pic.style.transform = "";
         settings.style.opacity = 0;
+        document.body.style.pointerEvents = "all";
         setTimeout(() => {
             settings.style.display = "none";
-            document.body.style.pointerEvents = "all";
         }, 200);
     } else if (state === "toggle") {
         if (theDis === "none") {
@@ -146,15 +152,15 @@ function handleTouchStart(e) {
 
 function resultGesture() {
     controls.ontouchend = () => {
-        
+        return
     }
     controls.ontouchcancel = () => {
-        
+        return
     }
-
+    
     let oldDist = Math.hypot(gst.ix1 - gst.ix2, gst.iy1 - gst.iy2);
     let newDist = Math.hypot(gst.fx1 - gst.fx2, gst.fy1 - gst.fy2);
-
+    
     if (newDist < oldDist) {
         toggleSettings(undefined, 'show');
     } else if (newDist > oldDist) {
@@ -188,55 +194,16 @@ if (localStorage.getItem('a11yEnabled') === "true") {
 
 a11yModer.checked ? (document.body.classList.add('a11y'), localStorage.setItem('a11yEnabled', true)) : null
 
-let httpRequest = new XMLHttpRequest();
-
-function sendHttpRequest() {
-    setTimeout(() => {
-        pic.src = "";
-        pic.style.animation = "";
-        pic.style.mask = '';
-        pic.style["-webkit-mask"] = '';
-        pic.style["-moz-mask"] = '';
-        pic.style["-ms-mask"] = '';
-        picTitle.textContent = "";
-
-        httpRequest.open('GET', `https://www.reddit.com/r/${scoutMode}/best.json?limit=80`);
-        httpRequest.send();
-    }, 0)
-}
-
-httpRequest.onreadystatechange = () => {
-    if (httpRequest.readyState === 4) {
-        if (httpRequest.status >= 200 && httpRequest.status < 400) {
-            let tempArray = JSON.parse(httpRequest.responseText).data.children;
-            picData = [];
-            tempArray.forEach(post => {
-                if (!post.data.stickied) {
-                if (!post.data.is_video) {
-                if (!post.data.over_18) {
-                if (!post.data.gallery_data) {
-                    picData.push(post)
-                }}}}
-            });
-
-            document.body.style.pointerEvents = 'all';
-            picNum = -1;
-            nextPic.click();
-            picTitle.style.display = 'block';
-            return
-        }
-        pic.classList.add('error');
-    }
-}
-
 prevPic.onclick = () => {
     changePic(-1);
 }
 nextPic.onclick = () => {
     changePic(1);
 }
-controls.ondblclick = () => {
-    toggleShotMode();
+controls.ondblclick = (e) => {
+    if (e.target === e.currentTarget) {
+        toggleShotMode();
+    }
 }
 
 a11yPrevPic.onclick = () => {
@@ -265,6 +232,48 @@ settings.ontouchstart = (e) => {
     if (e.target === e.currentTarget) {
         handleTouchStart(e);
     };
+}
+
+function sendHttpRequest() {
+    setTimeout(() => {
+        pic.src = "";
+        pic.style.animation = "";
+        pic.style.mask = '';
+        pic.style["-webkit-mask"] = '';
+        pic.style["-moz-mask"] = '';
+        pic.style["-ms-mask"] = '';
+        picTitle.textContent = "";
+
+        httpRequest.open('GET', `https://www.reddit.com/r/${scoutMode}/best.json?limit=80`);
+        httpRequest.send();
+    }, 0)
+}
+
+httpRequest.onreadystatechange = () => {
+    if (httpRequest.readyState === 4) {
+        if (httpRequest.status >= 200 && httpRequest.status < 400) {
+            let tempArray = JSON.parse(httpRequest.responseText).data.children;
+            picData = [];
+            tempArray.forEach(post => {
+                if (!post.data.stickied) {
+                    if (!post.data.is_video) {
+                        if (!post.data.over_18) {
+                            if (!post.data.gallery_data) {
+                                picData.push(post)
+                            }
+                        }
+                    }
+                }
+            });
+
+            document.body.style.pointerEvents = 'all';
+            picNum = -1;
+            nextPic.click();
+            picTitle.style.display = 'block';
+            return
+        }
+        pic.classList.add('error');
+    }
 }
 
 sendHttpRequest();
