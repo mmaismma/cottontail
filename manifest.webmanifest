@@ -15,5 +15,6 @@
     "background_color": "#ffffff",
     "display": "standalone",
     "orientation": "any",
-    "start-url": "https://mmaismma.github.io/cottontail/"
+    "start-url": ".",
+    "scope": "."
 }
