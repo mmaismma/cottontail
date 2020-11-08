@@ -14,6 +14,7 @@ html {
 body {
     pointer-events: none;
     position: relative;
+    user-select: none;
 }
 
 * {
@@ -45,6 +46,33 @@ button.invisible {
 
 button:hover {
     background: #555;
+}
+
+a {
+    color: #4c9aff;
+}
+
+main {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999999;
+    padding: 30px;
+    background-color: #000e;
+    pointer-events: all!important;
+    filter: none!important;
+    opacity: 0;
+    transition: opacity 100ms linear;
+}
+
+main * {
+    filter: none!important;
+    pointer-events: all!important;
+}
+
+footer {
+    position: absolute;
+    bottom: 30px;
 }
 
 body.a11y button:focus {
@@ -242,7 +270,7 @@ body.a11y .a11y-inverse-dependent {
     background: #1877f2;
     color: #fff;
     position: absolute;
-    max-width: 16rem;
+    max-width: 14rem;
     border-radius: 15px;
     padding: 10px;
     pointer-events: all;
@@ -263,21 +291,24 @@ body.a11y .a11y-inverse-dependent {
     background: #fff7;
 }
 
-body.in-tut *:not(div):not(.tut-highlight) {
+body.in-tut * {
     filter: brightness(30%);
 }
-
-body.in-tut *:not(.tutBox):not(.tutButton) {
+body.in-tut * {
     pointer-events: none;
 }
-
+.tut-highlight, .tut-highlight *, #a11y-controls, #controls {
+    filter: none!important
+}
+.tutBox, .tutButton {
+    pointer-events: all!important
+}
 #controls *.tut-highlight,
 #a11y-controls *.tut-highlight {
     background: #4c9aff40;
     box-shadow: 0 0 2px 2px inset #4c9aff;
     opacity: 1;
 }
-
 @media (pointer: coarse) {
 
 }

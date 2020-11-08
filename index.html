@@ -14,6 +14,28 @@
 </head>
 
 <body>
+    <main>
+        <h1>Welcome to Cottontail!</h1>
+        <p>
+            Cottontail is a hangout platform for everyone.
+        </p>
+        <p>
+            You like art? We got them. You like crafts? We got them too. You like origami? We got them too. You like
+            rabbits? Me too. We have got everything you like. You like me? Aww, thanks. Check me out on 
+            <a href="github.com/mmaismma">GitHub</a> and <a href="facebook.com/mmaismma">Facebook</a>.
+        </p>
+        <p>
+            Originally created for scouting rabbits for my beloved sister, Cottontail is now open to everyone for scouting everything!
+            Choose what you want to admire in settings. All images come from different subreddits.
+        </p>
+        <p>
+            Cottontail is evolving everyday and creative developers will can it get even better, 
+            contribute to Cottontail on <a href="github.com/mmaismma/cottontail">GitHub</a>.
+        </p>
+        
+        <!--<button onclick="">Install Cottontail for a better experience</button>-->
+        <button onclick="this.parentElement.remove(); localStorage.setItem('CTfirstTime', 'nope')">Start admiring</button>
+    </main>
 
     <img id="pic" onload="pic.style.animation = 'none'; pic.style['-webkit-mask'] = 'none'; pic.style['mask'] = 'none'">
 
@@ -23,12 +45,12 @@
         <button id="next-pic" class="invisible"></button>
     </div>
 
-    <div id="a11y-controls">
+    <nav id="a11y-controls">
         <button id="a11y-prev-pic">Previous Picture</button>
         <button id="a11y-shot-moder">Toggle "Shot-Mode"</button>
         <button id="a11y-settings-toggler">Open/Close Settings</button>
         <button id="a11y-next-pic">Next Picture</button>
-    </div>
+    </nav>
 
     <div id="settings">
         <h1 id="screen-title">Settings</h1>
@@ -45,13 +67,13 @@
 
         <!--<input type="checkbox" id="shot-mode-downloads">
         <label for="shot-mode-downloads">"Shot-mode" downloads picture</label><br><br>-->
-        
-        <input type="checkbox" onchange="toggleA11yMode()" id="a11y-moder">
+
+        <input type="checkbox" onchange="toggleA11yMode()" id="a11y-moder" checked>
         <label for="a11y-moder">High accessibility mode</label><br><br>
 
         <input type="checkbox" id="dont-show-title" onclick="this.checked ? (titleInShot.disabled = true, titleInShot.checked = false, picTitle.style.display = 'none') : (titleInShot.disabled = false, picTitle.style.display = 'block')" autocomplete="on">
         <label for="dont-show-title">Don't show picture title</label><br><br>
-        
+
         <input type="checkbox" id="title-in-shot" autocomplete="on">
         <label for="title-in-shot">Show picture title in "shot-mode"</label><br><br>
 
@@ -67,6 +89,11 @@
 
         <button onclick="showTutorial()">Show Tutorial</button><br><br>
         <button class="a11y-dependent" onclick="toggleSettings()">Close Settings</button>
+
+        <footer>
+            <p>Made by <a href="github.com/mmaismma">MMA</a></p>
+            <p>Contribute on <a href="github.com/mmaismma/cottontail">GitHub</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>

@@ -24,9 +24,28 @@ const titleInShot = elId('title-in-shot')
 let picData = [];
 let gst = [];
 let picNum = -1;
-let scoutMode = localStorage.getItem('scoutMode') === null ? "rabbits" : localStorage.getItem('scoutMode');
+let scoutMode = localStorage.getItem('CTscoutMode') === null ? "rabbits" : localStorage.getItem('CTscoutMode');
 modeSelector.value = scoutMode;
 let httpRequest = new XMLHttpRequest();
+
+a11yControls.style.visibility = 'hidden';
+
+if (localStorage.getItem('CTa11yEnabled') === "true") {
+    a11yModer.checked ? null : a11yModer.click()
+} else if (localStorage.getItem('CTa11yEnabled') === "false") {
+    a11yModer.checked ? a11yModer.click() : null
+} else {
+    localStorage.setItem('CTa11yEnabled', a11yModer.checked);
+}
+
+a11yModer.checked ? (document.body.classList.add('a11y'), localStorage.setItem('CTa11yEnabled', true)) : null
+
+if (localStorage.getItem('CTfirstTime') === 'nope') {
+    document.getElementsByTagName('main')[0].remove();
+} else {
+    document.getElementsByTagName('main')[0].style.opacity = 1;
+    showTutorial();
+}
 
 function changePic(diff) {
     picNum += diff;
@@ -278,24 +297,12 @@ function showTutorial(step = 'pic') {
 function toggleA11yMode() {
     if (a11yModer.checked) {
         document.body.classList.toggle('a11y') ? null : document.body.classList.add('a11y');
-        localStorage.setItem('a11yEnabled', true);
+        localStorage.setItem('CTa11yEnabled', true);
     } else if (!a11yModer.checked) {
         !document.body.classList.toggle('a11y') ? null : document.body.classList.remove('a11y');
-        localStorage.setItem('a11yEnabled', false);
+        localStorage.setItem('CTa11yEnabled', false);
     }
 }
-
-a11yControls.style.visibility = 'hidden';
-
-if (localStorage.getItem('a11yEnabled') === "true") {
-    a11yModer.checked ? null : a11yModer.click()
-} else if (localStorage.getItem('a11yEnabled') === "false") {
-    a11yModer.checked ? a11yModer.click() : null
-} else {
-    localStorage.setItem('a11yEnabled', a11yModer.checked);
-}
-
-a11yModer.checked ? (document.body.classList.add('a11y'), localStorage.setItem('a11yEnabled', true)) : null
 
 prevPic.onclick = () => {
     changePic(-1);
