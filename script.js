@@ -82,15 +82,12 @@ function toggleSettings(e = event, state = "toggle") {
     if (state === "show" && theDis === "none") {
         settings.style.display = "block";
         pic.style.transform = "scale(0.9)"
-        settings.style.pointerEvents = "all";
-        document.body.style.pointerEvents = "none";
         setTimeout(() => {
             settings.style.opacity = 1;
         }, 0)
     } else if (state === "hide" && theDis === "block") {
         pic.style.transform = "";
         settings.style.opacity = 0;
-        document.body.style.pointerEvents = "all";
         setTimeout(() => {
             settings.style.display = "none";
         }, 200);
@@ -170,8 +167,112 @@ function resultGesture() {
     }
 }
 
-function showTutorial() {
-    return
+function showTutorial(step = 'pic') {
+    toggleSettings(undefined, 'hide');
+    document.body.classList.contains('in-tut') ? null : document.body.classList.add('in-tut');
+    var tutBox = document.getElementsByClassName('tutBox')[0];
+    var tutButton = document.getElementsByClassName('tutButton')[0];
+
+    if (tutBox === undefined) {
+        tutBox = document.createElement('div');
+        tutButton = document.createElement('button');
+        tutButton.textContent = 'Continue';
+        tutButton.setAttribute('onclick','showTutorial(\'pic\')')
+        tutBox.appendChild(tutButton);
+        tutBox.className = 'tutBox';
+        tutButton.className = 'tutButton';
+        document.body.appendChild(tutBox);
+    }
+    Array.from(document.getElementsByClassName('tut-highlight')).forEach(elm => {
+        elm.classList.remove('tut-highlight');
+    })
+    tutBox.classList.add('tut-highlight');
+    tutButton.classList.add('tut-highlight');
+    switch (step) {
+    case 'prevPic':
+        tutButton.setAttribute('onclick', 'showTutorial("shotMode")');
+        tutBox.innerHTML = 'Click here to see the previous picture.<br>' + tutButton.outerHTML;
+        if (a11yModer.checked) {
+            a11yPrevPic.classList.add('tut-highlight');
+            tutBox.style.borderBottomLeftRadius = 0;
+            tutBox.style.borderBottomRightRadius = '';
+            tutBox.style.top = a11yPrevPic.getBoundingClientRect().top - tutBox.getBoundingClientRect().height - 12 + 'px';
+            tutBox.style.left = a11yPrevPic.getBoundingClientRect().left + a11yPrevPic.getBoundingClientRect().width / 2 + 'px';
+        } else {
+            prevPic.classList.add('tut-highlight');
+            tutBox.style.borderBottomLeftRadius = 0;
+            tutBox.style.borderBottomRightRadius = '';
+            tutBox.style.top = prevPic.getBoundingClientRect().top - tutBox.getBoundingClientRect().height / 2 + prevPic.getBoundingClientRect().height / 2 + 'px';
+            tutBox.style.left = prevPic.getBoundingClientRect().right + 10 + 'px';
+        }
+        break;
+    case 'nextPic':
+        tutButton.setAttribute('onclick', 'showTutorial("prevPic")');
+        tutBox.innerHTML = 'Click here to see the next picture.<br>' + tutButton.outerHTML;
+        if (a11yModer.checked) {
+            a11yNextPic.classList.add('tut-highlight');
+            tutBox.style.borderBottomLeftRadius = '';
+            tutBox.style.borderBottomRightRadius = 0;
+            tutBox.style.top = a11yNextPic.getBoundingClientRect().top - tutBox.getBoundingClientRect().height - 12 + 'px';
+            tutBox.style.left = a11yNextPic.getBoundingClientRect().left + a11yNextPic.getBoundingClientRect().width / 2 - tutBox.getBoundingClientRect().width + 'px';
+        } else {
+            nextPic.classList.add('tut-highlight');
+            tutBox.style.borderBottomLeftRadius = '';
+            tutBox.style.borderBottomRightRadius = 0;
+            tutBox.style.top = nextPic.getBoundingClientRect().top - tutBox.getBoundingClientRect().height / 2 + nextPic.getBoundingClientRect().height / 2 + 'px';
+            tutBox.style.left = nextPic.getBoundingClientRect().left - tutBox.getBoundingClientRect().width - 10 + 'px';
+        }
+        break;
+    case 'pic':
+        tutButton.setAttribute('onclick', 'showTutorial("nextPic")');
+        tutBox.innerHTML = 'This is the image.<br>' + tutButton.outerHTML;
+        tutBox.style.borderBottomLeftRadius = '';
+        tutBox.style.borderBottomRightRadius = '';
+        pic.classList.add('tut-highlight');
+        tutBox.style.top = `calc(100% - ${tutBox.getBoundingClientRect().height + 10}px)`;
+        tutBox.style.left = `calc(50% - ${tutBox.getBoundingClientRect().width / 2}px)`;
+        break;
+    case 'shotMode':
+        tutButton.setAttribute('onclick', 'showTutorial("settings")');
+        tutBox.innerHTML = 'Click here to toggle shot-mode, a mode perfect for taking screenshots of your favourite images.<br>' + tutButton.outerHTML;
+        if (a11yModer.checked) {
+            a11yShotModer.classList.add('tut-highlight');
+            tutBox.style.borderBottomLeftRadius = 0;
+            tutBox.style.borderBottomRightRadius = '';
+            tutBox.style.top = a11yShotModer.getBoundingClientRect().top - tutBox.getBoundingClientRect().height - 12 + 'px';
+            tutBox.style.left = a11yShotModer.getBoundingClientRect().left + a11yShotModer.getBoundingClientRect().width / 2 + 'px';
+        } else {
+            pic.classList.add('tut-highlight');
+            tutBox.innerHTML = 'Double click at the center to toggle shot-mode, a mode perfect for taking screenshots of your favourite images.<br>' + tutButton.outerHTML;
+            tutBox.style.borderBottomLeftRadius = '';
+            tutBox.style.borderBottomRightRadius = '';
+            tutBox.style.top = `calc(100% - ${tutBox.getBoundingClientRect().height + 10}px)`;
+            tutBox.style.left = `calc(50% - ${tutBox.getBoundingClientRect().width / 2}px)`;
+        }
+        break;
+    case 'settings':
+        tutButton.setAttribute('onclick', 'showTutorial("close")');
+        tutButton.innerHTML = 'End Tutorial';
+        tutBox.innerHTML = 'Click here to open and close settings, where you can also redo the tutorial.<br>' + tutButton.outerHTML;
+        if (a11yModer.checked) {
+            a11ySetter.classList.add('tut-highlight');
+            tutBox.style.borderBottomLeftRadius = '';
+            tutBox.style.borderBottomRightRadius = 0;
+            tutBox.style.top = a11ySetter.getBoundingClientRect().top - tutBox.getBoundingClientRect().height - 12 + 'px';
+            tutBox.style.left = a11ySetter.getBoundingClientRect().left + a11ySetter.getBoundingClientRect().width / 2 - tutBox.getBoundingClientRect().width + 'px';
+        } else {
+            pic.classList.add('tut-highlight');
+            tutBox.innerHTML = 'Right click or pinch in and out to open and close settings, where you can also redo the tutorial.<br>' + tutButton.outerHTML;
+            tutBox.style.borderBottomLeftRadius = '';
+            tutBox.style.borderBottomRightRadius = '';
+            tutBox.style.top = `calc(100% - ${tutBox.getBoundingClientRect().height + 10}px)`;
+            tutBox.style.left = `calc(50% - ${tutBox.getBoundingClientRect().width / 2}px)`;
+        }
+        break;
+    case 'close':
+        document.body.classList.remove('in-tut');
+        tutBox.remove();
+    }
 }
 
 function toggleA11yMode() {
@@ -183,6 +284,8 @@ function toggleA11yMode() {
         localStorage.setItem('a11yEnabled', false);
     }
 }
+
+a11yControls.style.visibility = 'hidden';
 
 if (localStorage.getItem('a11yEnabled') === "true") {
     a11yModer.checked ? null : a11yModer.click()
@@ -270,6 +373,7 @@ httpRequest.onreadystatechange = () => {
             picNum = -1;
             nextPic.click();
             picTitle.style.display = 'block';
+            a11yControls.style.visibility = '';
             return
         }
         pic.classList.add('error');
